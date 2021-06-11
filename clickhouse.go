@@ -7,8 +7,9 @@ import (
 	"reflect"
 	"strings"
 
-	_ "github.com/ClickHouse/clickhouse-go"
+	//	_ "github.com/ClickHouse/clickhouse-go"
 	"github.com/hashicorp/go-version"
+	_ "github.com/mailru/go-clickhouse"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
 	"gorm.io/gorm/clause"
@@ -233,16 +234,16 @@ func (dialector Dialector) DataTypeOf(field *schema.Field) string {
 		return "String"
 	case schema.Time:
 		// TODO: support TimeZone
-		precision := ""
-		if !dialector.DisableDatetimePrecision {
-			if field.Precision == 0 {
-				field.Precision = 3
-			}
-			if field.Precision > 0 {
-				precision = fmt.Sprintf("(%d)", field.Precision)
-			}
-		}
-		return "DateTime64" + precision
+		// precision := ""
+		// if !dialector.DisableDatetimePrecision {
+		// 	if field.Precision == 0 {
+		// 		field.Precision = 3
+		// 	}
+		// 	if field.Precision > 0 {
+		// 		precision = fmt.Sprintf("(%d)", field.Precision)
+		// 	}
+		// }
+		return "DateTime" //+ precision
 	}
 
 	return string(field.DataType)
